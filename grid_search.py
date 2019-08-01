@@ -20,6 +20,7 @@ from models import *
 parser = argparse.ArgumentParser()
 parser.add_argument('-p', '--hyper_grid', help='hyperparameter grid to search over')
 parser.add_argument('-d', '--dataset', help='dataset to learn over')
+parser.add_argument('-f', '--data_dir', help='file path to dataset folder')
 parser.add_argument('-c', '--cpu', action="store_true", help='train on CPU')
 parser.add_argument('-s', '--samples', help='Number of random configurations to try.')
 args = parser.parse_args()
@@ -109,7 +110,10 @@ def main():
     
     grid_name = args.hyper_grid 
     dataset = args.dataset 
+    data_dir = args.data_dir
     rand_samples = int(args.samples)
+    assert(not None in [grid_name, dataset, data_dir, rand_samples])
+
     print(args)
     out_dir = os.path.join("result", grid_name, dataset)
     create_directory(out_dir)
