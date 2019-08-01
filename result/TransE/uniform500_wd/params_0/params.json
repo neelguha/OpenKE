@@ -1,0 +1,1 @@
+{"ent_neg_rate": 10, "ent_rel_rate": 10, "max_epochs": 1000, "nbatches": 100, "dimension": 150, "p_norm": 2, "valid_steps": 50, "early_stopping_patience": 1, "save_steps": 50, "neg_strategy": 0, "lr": 0.001, "opt_method": "SGD", "lambda": 0.01, "model": "TransE", "margin": 1}

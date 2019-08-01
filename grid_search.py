@@ -68,13 +68,14 @@ def learn_model(hp, data_dir, out_dir):
     con = config.Config()
 
     if not args.cpu:
-        os.environ['CUDA_VISIBLE_DEVICES']='1'
+        os.environ['CUDA_VISIBLE_DEVICES']='0'
     con.set_use_gpu(not args.cpu)
     
 
     # set intput, checkpoint, and results directory 
     if not data_dir[-1] == '/':
         data_dir = data_dir + "/"
+    print("Loading data from %s" % data_dir)
     con.set_in_path(data_dir)
     
     checkpoint_dir = os.path.join(out_dir, 'checkpoint')
@@ -123,7 +124,6 @@ def main():
     print("-"*20)
     print()
     grid = load_grid()
-    data_dir = os.path.join('benchmarks', dataset)
 
     scores = {} # dictionary of scores from parameter index to validation score. 
     score_fpath = os.path.join(out_dir, 'scores.json')
