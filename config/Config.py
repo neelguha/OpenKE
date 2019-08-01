@@ -11,7 +11,7 @@ import ctypes
 import json
 import numpy as np
 import copy
-
+from tqdm import tqdm 
 def to_var(x, use_gpu):
     if use_gpu:
         return Variable(torch.from_numpy(x).cuda())
@@ -379,9 +379,9 @@ class Config(object):
 
     def valid(self, model):
         self.lib.validInit()
-        for i in range(self.validTotal):
-            sys.stdout.write("%d\r" % (i))
-            sys.stdout.flush()
+        for i in tqdm(range(self.validTotal)):
+            #sys.stdout.write("%d\r" % (i))
+            #sys.stdout.flush()
             self.lib.getValidHeadBatch(
                 self.valid_h_addr, self.valid_t_addr, self.valid_r_addr
             )
@@ -441,12 +441,12 @@ class Config(object):
             os.mkdir(self.result_dir)
         self.save_best_checkpoint(best_model)
         self.save_embedding_matrix(best_model)
-        print("Finish storing")
+        '''print("Finish storing")
         print("Testing...")
         self.set_test_model(self.model)
-        self.test()
+        self.test()'''
         print("Finish test")
-        return best_model
+        return best_model, best_hit10
 
     def link_prediction(self):
         print("The total of test triple is %d" % (self.testTotal))
