@@ -1,6 +1,6 @@
 # Learn convolutional entity-matching model from entity embeddings 
 
-import argparse, os, json,  warnings
+import argparse, os, json,  warnings, sys
 warnings.filterwarnings('ignore') # to suppress some matplotlib deprecation warnings
 import numpy as np
 
@@ -10,6 +10,10 @@ from utils import *
 import torch.optim as optim
 from  torch import nn
 import torch 
+
+# import dice libraries 
+sys.path.append('../dice')
+from metrics import em_metrics
 
 # parser 
 parser = argparse.ArgumentParser()
@@ -38,6 +42,8 @@ def main():
 
     # load candidate tails 
     candidates = data_utils.load_candidates(data_dir)
+    # load mbz types 
+    mbz_index2type = data_utils.load_etypes(data_dir)
     print("done!")
 
     # initialize model 
@@ -50,9 +56,16 @@ def main():
 
     model_utils.train(model, optimizer, loss, train_loader, val_loader, candidates, 3, device=device, log_interval=1, num_epochs=100)
 
+    create_directory(args.out_dir)
     out_fpath = os.path.join(args.out_dir, 'model.pt')
     torch.save(model.state_dict(), out_fpath)
- 
+
+    x, y_trues, y_preds = model_utils.evaluate_model(model, test_loader, candidates)
+    metrics = em_metrics.evaluate_em(x, y_trues, y_preds, mbz_index2type)
+    print(metrics)
+    # save results 
+    with open(os.path.join(args.out_dir, 'metrics.json'), 'w') as out_file:
+        json.dump(metrics, out_file)
 
     
          

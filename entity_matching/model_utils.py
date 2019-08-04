@@ -35,23 +35,28 @@ def train(model, optimizer, loss_fn, train_loader, val_loader, wd_candidates, ne
 
         if epoch % log_interval == 0:
             print('Train Epoch: {} \tLoss: {:.6f} \tTime: {:.2f} seconds'.format(epoch, loss.item(), time.time() - t0))
-        
-        if epoch+1 % valid_steps == 0:
-            model.eval()
-            # When validating performance, we measure the accuracy on positive matches 
-            correct = 0.0
-            incorrect = 0.0 
-            num_val_batches = int(len(val_loader.dataset) / val_loader.batch_size)
-            for batch_idx, (data, target) in tqdm(enumerate(val_loader), total=num_val_batches):
-                assert(len(data) == 1)
-                mbz_id = data[0, 0]
-                pred_id, score = model.predict_matches(mbz_id, wd_candidates)
-                #print(pred_id, score)
-                if pred_id == data[0, 1]:
-                    correct += 1
-                else: 
-                    incorrect += 1
-            accuracy = correct / (correct + incorrect)
-            
-            print('Validation Epoch {}. Accuracy: {:.2f}'.format(epoch, accuracy))
-        
+
+def evaluate_model(model, test_loader, wd_candidates):
+
+    model.eval()
+    # When validating performance, we measure the accuracy on positive matches 
+    x = []
+    y_preds = []
+    y_trues = []
+    num_test_batches = int(len(test_loader.dataset) / test_loader.batch_size)
+    for batch_idx, (data, target) in tqdm(enumerate(test_loader), total=num_test_batches):
+        assert(len(data) == 1)
+        mbz_id = data[0, 0]
+        wd_id = data[0, 1]
+        pred_id, score = model.predict_matches(mbz_id, wd_candidates)
+
+        if score < 0.5:
+            pred_id ="None"
+        else:
+            pred_id = pred_id.item()
+
+        x.append(mbz_id.item())
+        y_preds.append(pred_id)
+        y_trues.append(wd_id.item())
+    
+    return x, y_trues, y_preds

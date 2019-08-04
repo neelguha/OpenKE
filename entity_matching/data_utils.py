@@ -140,3 +140,16 @@ def load_candidates(data_dir):
     return np.array(candidates)
     
     
+def load_etypes(data_dir):
+    mbz_eid2index = load_openKE_dict(data_dir, 'mbz')
+
+    mbz_index2type = {}
+    fpath = os.path.join(data_dir, 'id2type.txt')
+    matches = []
+    with open(fpath, 'r') as in_file:
+        for line in in_file:
+            eid, etype = line.strip().split("\t")
+            if eid in mbz_eid2index:
+                index = mbz_eid2index[eid]
+                mbz_index2type[index] = etype
+    return mbz_index2type
