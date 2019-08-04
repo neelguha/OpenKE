@@ -8,9 +8,6 @@ def create_directory(dir):
     
     if not os.path.exists(dir):
         os.makedirs(dir)
-    else:
-        shutil.rmtree(dir)           
-        os.makedirs(dir)
 
 
 def save_json(obj, fpath):

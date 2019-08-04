@@ -24,7 +24,7 @@ void importTrainFiles() {
 
 	printf("The toolkit is importing datasets.\n");
 	FILE *fin;
-	int tmp;
+	int tmp = 0;
 
 	fin = fopen((inPath + "relation2id.txt").c_str(), "r");
 	tmp = fscanf(fin, "%ld", &relationTotal);

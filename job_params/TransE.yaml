@@ -21,4 +21,3 @@ early_stopping_patience: [1]
 valid_steps: [50]
 save_steps: [50]
 nbatches: [100]
-
