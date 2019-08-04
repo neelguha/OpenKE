@@ -48,11 +48,10 @@ def main():
     optimizer = optim.Adam(model.parameters(), lr=0.01)
     loss = nn.CrossEntropyLoss()
 
-    model_utils.train(model, optimizer, loss, train_loader, val_loader, candidates, 3, device=device, log_interval=1)
+    model_utils.train(model, optimizer, loss, train_loader, val_loader, candidates, 3, device=device, log_interval=1, num_epochs=100)
 
-    out_dir = args.out_dir
-    create_dictionary(out_dir)
-    torch.save(model.state_dict(), out_dir)
+    out_fpath = os.path.join(args.out_dir, 'model.pt')
+    torch.save(model.state_dict(), out_fpath)
  
 
     
