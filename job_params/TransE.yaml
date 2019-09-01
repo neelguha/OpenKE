@@ -15,7 +15,7 @@ p_norm: [1]
 # optimization parameters
 opt_method: ['Adam']
 lr: [0.01]
-max_epochs: [1]
+max_epochs: [500]
 nbatches: [100]
 early_stopping_patience: [1]
 valid_steps: [501]
