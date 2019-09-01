@@ -18,21 +18,21 @@ from models import *
 
 # parser 
 parser = argparse.ArgumentParser()
-parser.add_argument('-p', '--hyper_grid', help='hyperparameter grid to search over')
-parser.add_argument('-d', '--dataset', help='dataset to learn over')
-parser.add_argument('-f', '--data_dir', help='file path to dataset folder')
+parser.add_argument('-m', '--method', default='Transe', help='hyperparameter grid to search over')
+parser.add_argument('-d', '--data_dir', help='dataset to learn over')
+parser.add_argument('-r', '--result_dir', help='file path to dataset folder')
 parser.add_argument('-c', '--cpu', action="store_true", help='train on CPU')
-parser.add_argument('-s', '--samples', help='Number of random configurations to try.')
+parser.add_argument('-s', '--samples', default=1, help='Number of random configurations to try.')
 args = parser.parse_args()
 
 def load_grid():
     ''' Loads hyperparameter grid
 
         Returns:
-            hyper_grid: dictionary of parameters and value ranges, loaded from args.hyper_grid
+            hyper_grid: dictionary of parameters and value ranges, loaded from args.method
     '''
-    hpath = os.path.join('job_params', '%s.yaml' % args.hyper_grid)
-    hyper_grid = yaml.load(open(hpath, 'r'))
+    hpath = os.path.join('job_params', '%s.yaml' % args.method)
+    hyper_grid = yaml.load(open(args.method, 'r'))
     return hyper_grid
 
 def generate_hyperparams(grid):
@@ -109,18 +109,17 @@ def learn_model(hp, data_dir, out_dir):
 
 def main():
     
-    grid_name = args.hyper_grid 
-    dataset = args.dataset 
+    grid_name = args.method 
     data_dir = args.data_dir
     rand_samples = int(args.samples)
-    assert(not None in [grid_name, dataset, data_dir, rand_samples])
+    assert(not None in [grid_name, data_dir, rand_samples])
 
     print(args)
-    out_dir = os.path.join("result", grid_name, dataset)
+    out_dir = args.result_dir
     create_directory(out_dir)
 
     print("-"*20)
-    print("Performing random search over grid %s and dataset %s for %d iterations" % (grid_name, dataset, rand_samples))
+    print("Performing random search over grid %s and dataset %s for %d iterations" % (grid_name, data_dir, rand_samples))
     print("-"*20)
     print()
     grid = load_grid()

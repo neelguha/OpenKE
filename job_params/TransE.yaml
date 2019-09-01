@@ -2,22 +2,22 @@
 model: TransE
 
 # sampling parameters
-neg_strategy: [0, 1] 
-ent_neg_rate: [1, 10, 25, 50]
-ent_rel_rate: [0, 5, 10]  # All OpenKE models across all benchmarks set this to zero. 
+neg_strategy: [0] 
+ent_neg_rate: [1]
+ent_rel_rate: [0]  # All OpenKE models across all benchmarks set this to zero. 
 
 # model specific parameters
-margin: [1,  5, 10]
-dimension: [50, 100, 150, 200]
-lambda: [0.0, 0.01, 0.001]
-p_norm: [1, 2]
+margin: [1]
+dimension: [50]
+lambda: [0.0]
+p_norm: [1]
 
 # optimization parameters
 opt_method: ['SGD']
-lr: [0.1, 0.01, 0.001]
-max_epochs: [1000]
+lr: [0.001]
+max_epochs: [500]
 nbatches: [100]
 early_stopping_patience: [1]
-valid_steps: [50]
+valid_steps: [500]
 save_steps: [50]
 nbatches: [100]
