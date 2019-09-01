@@ -87,7 +87,8 @@ def learn_model(hp, data_dir, out_dir):
     con.set_result_dir(results_dir)
 
     # optimization / model parameters 
-    con.set_test_link_prediction(True)
+    con.set_test_link(True)
+    con.set_test_triple(True)
     con.set_train_times(hp['max_epochs'])
     con.set_nbatches(hp['nbatches'])	
     con.set_alpha(hp['lr'])
