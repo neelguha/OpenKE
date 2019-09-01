@@ -13,7 +13,7 @@ lambda: [0.0]
 p_norm: [1]
 
 # optimization parameters
-opt_method: ['SGD']
+opt_method: ['Adam']
 lr: [0.01]
 max_epochs: [1]
 nbatches: [100]

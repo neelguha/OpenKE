@@ -106,6 +106,7 @@ def learn_model(hp, data_dir, out_dir):
     con.init()
     con.set_train_model(get_model(hp['model']))
     model, valid_score = con.train()
+    con.set_test_model(get_model(hp['model']))
     con.test()
     return valid_score
 
