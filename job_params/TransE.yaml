@@ -14,7 +14,7 @@ p_norm: [1]
 
 # optimization parameters
 opt_method: ['SGD']
-lr: [0.001]
+lr: [0.01]
 max_epochs: [500]
 nbatches: [100]
 early_stopping_patience: [1]
